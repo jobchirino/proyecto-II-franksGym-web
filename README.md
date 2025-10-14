@@ -18,7 +18,7 @@ Sistema web desarrollado para gestionar las membresías de los atletas del gimna
 
 ## Configuración del Proyecto
 
-### 1. Clonear el repositorio
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/jobchirino/proyecto-II-franksGym-web.git
