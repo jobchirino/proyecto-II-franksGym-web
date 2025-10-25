@@ -11,6 +11,7 @@ export async function POST(request){
             email: formData.get('email'),
             password: formData.get('password'),
             confirmPassword: formData.get('confirmPassword'),
+            isFirst: formData.get('isFirst') === 'true' ? true : false,
             name: formData.get('name')
         }
     
@@ -34,6 +35,7 @@ export async function POST(request){
             data: {
                 email: result.data.email,
                 password: hashedPassword,
+                isFirst: result.data.isFirst,
                 name: result.data.name
             }
         })

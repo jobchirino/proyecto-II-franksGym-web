@@ -1,4 +1,4 @@
-import { roboto } from "@/app/auth/page";
+import { robotoAuth } from "@/app/auth/page";
 import { PiWarningOctagonBold } from "react-icons/pi";
 import { array } from "zod";
 
@@ -10,7 +10,7 @@ export default function ModalError({error}){
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center gap-3 items-center">
                         <PiWarningOctagonBold size={40} color="#E50914"/>
-                        <h2 className={`text-3xl ${roboto.className}`}>Error</h2>
+                        <h2 className={`text-3xl ${robotoAuth.className}`}>Error</h2>
                     </header>
                     <section className="flex flex-col gap-3">
                         <div>

@@ -1,18 +1,34 @@
-import { object } from "zod"
+const fieldMap = {
+    name: 'Nombre',
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    confirmPassword: 'Confirmar contraseña'
+}
+
 
 export const createCustomError = (error) => {
+    const translateZodErrors = () => {
+      return error.map((issue) => {
+        const translatedFieldName = fieldMap[issue.path[0]] 
+        return {
+          field: translatedFieldName,
+          message: issue.message
+        };
+      });
+    };
+    const translatedErrors = translateZodErrors();
+    console.log('errores traducidos', translatedErrors)
     const customErrorObject = {}
-    error.forEach(issue => {
-        if(!customErrorObject[issue.path[0]]){
-            customErrorObject[issue.path[0]] = issue.message
+    translatedErrors.forEach(issue => {
+        if(!customErrorObject[issue.field]){
+            customErrorObject[issue.field] = issue.message
         }else{
-            customErrorObject[issue.path[0]] += `, ${issue.message}`
+            customErrorObject[issue.field] += `, ${issue.message}`
         } 
     })
     const customError = []
     Object.entries(customErrorObject).forEach(([key, value]) => {
         customError.push({[key]: value.split(', ')})
     })
-    console.log('aquí los values', Object.values(customError))
     return customError
 }

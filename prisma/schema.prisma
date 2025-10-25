@@ -19,6 +19,21 @@ model User{
   email String @unique
   password String
   name String
+  isFirst Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Athlete{
+  id Int @id @default(autoincrement())
+  CI Int @unique
+  fullName String
+  addres String
+  phoneNumber String
+  emergencyPhoneNumber String
+  email String @unique
+  isPaid Boolean @default(true)
+  membershipType String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

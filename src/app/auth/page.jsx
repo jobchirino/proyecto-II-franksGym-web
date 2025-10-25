@@ -1,26 +1,33 @@
 'use client'
 import Header from "@/components/header";
 import Input from "@/components/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Roboto_Mono } from "next/font/google";
 import { signIn } from "next-auth/react";
-import { set } from "zod";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
-import { errorMock } from "@/mocks/error";
 import ModalError from "@/components/modalError";
+import axios from "axios";
 
 
-export const roboto = Roboto_Mono({
+export const robotoAuth = Roboto_Mono({
   subsets: ["latin"],
   weight: '400'
 });
 
 export default function Login(){
-    const [logging, setLogging] = useState(true)
+    const [isFirst, setIsFirst] = useState(true)
     const [error, setError]     = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()  
+    
+    useEffect(() => {
+        setLoading(true)
+        axios.get('api/users/is-first')
+        .then((response) => setIsFirst(response.data.isFirst))
+        .catch((error) => setError({error: error}))
+        .finally(() => setLoading(false))        
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -57,6 +64,7 @@ export default function Login(){
         formData.append('password', e.target.password.value)
         formData.append('confirmPassword', e.target.confirmPassword.value)
         formData.append('name', e.target.name.value)
+        formData.append('isFirst', 'true')
         console.log('registrando...')
 
         try {
@@ -96,11 +104,12 @@ export default function Login(){
             
             <div className="w-full min-h-dvh flex flex-col md:flex-row">
             <Header />
+
             <div className="flex-grow flex flex-col items-center gap-2 mb-10 md:justify-center md:mb-0">
-                <h2 className={`${roboto.className} text-2xl`}>{ logging? 'Iniciar Sesión' : 'Regístrate'}</h2>
+                <h2 className={`${robotoAuth.className} text-2xl`}>{ isFirst? 'Regístrate' : 'Iniciar Sesión'}</h2>
                 <div className="w-5/6 bg-[#323032] py-7 rounded-lg flex flex-col items-center gap-6 shadow-black shadow-xl desktop:w-3/6 2xl:max-w-2/6 ">
-                    <form className="w-[90%] flex flex-col gap-6 px-5 items-center" onSubmit={logging? handleLogin : handleRegister}>
-                    <div className={`w-full flex flex-col ${error? 'gap-1' : 'gap-3'}  items-center`}>
+                    <form className="w-[90%] flex flex-col gap-6 px-5 items-center" onSubmit={isFirst? handleRegister : handleLogin}>
+                    <div className={`w-full flex flex-col gap-3 items-center`}>
                         <Input 
                             label={"Correo electrónico"}
                             id={'email'}
@@ -116,7 +125,7 @@ export default function Login(){
                         
                         />
                         {
-                        logging? '' :
+                        isFirst ? 
                             <>
                             <Input 
                                 label={'Confirmar contraseña'}
@@ -132,22 +141,14 @@ export default function Login(){
                                 placeholder={'Jhon Doe'}
                                 
                             />
-                            </> 
+                            </> : ''
                         }
                     </div>
 
                     <button className="bg-[#E50914] w-full py-1 rounded-md transition-colors duration-300 cursor-pointer hover:bg-[#842E2E]">
-                        {logging? 'Ingresar': 'Registrar'}
+                        {isFirst? 'Registrar' : 'Ingresar'}
                     </button>
                     </form>
-
-                    <button className="w-[90%] text-sm cursor-pointer" onClick={() => setLogging(!logging)}>
-                    {
-                        logging? 
-                        <p>¿No tienes una cuenta? <span className="font-bold">Regístrate</span></p> :
-                        <p>¿Ya tienes una cuenta? <span className="font-bold">Inicia Sesión</span></p>
-                    }
-                    </button>
                 </div>
             </div>
             <ModalError error={error}/>
