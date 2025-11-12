@@ -14,7 +14,7 @@ export default function Input({label, id, type, placeholder}){
                   id={id} 
                   name={id}
                   placeholder={placeholder}
-                  className="outline-none bg-[#727272] rounded-md pl-2 h-8 w-full"
+                  className="outline-none bg-[#727272] rounded-md pl-2 h-8 w-full without-arrows"
                   required
                 />
             </label>

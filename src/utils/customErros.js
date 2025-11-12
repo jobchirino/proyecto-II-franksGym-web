@@ -1,12 +1,4 @@
-const fieldMap = {
-    name: 'Nombre',
-    email: 'Correo electrónico',
-    password: 'Contraseña',
-    confirmPassword: 'Confirmar contraseña'
-}
-
-
-export const createCustomError = (error) => {
+export const createCustomError = (error, fieldMap) => {
     const translateZodErrors = () => {
       return error.map((issue) => {
         const translatedFieldName = fieldMap[issue.path[0]] 

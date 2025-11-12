@@ -19,7 +19,18 @@ const userSchema = z.object({
         })
 })
 
+const partialUser = z.object({
+    email: z.string("El campo debe ser un String").nonempty("El correo es requerido").email("El email debe tener un formato correcto"),
+    name: z.string("El campo debe ser un String").trim().transform(val => typeof val === 'string' ? val.trim() : String(val).trim())
+        .refine((val) => val.length > 2, { message: "El nombre es requerido y debe tener minimo 3 carácteres." })
+        .refine((val) => !/[0-9]/.test(val), {
+            message: "El nombre no puede contener números.",
+        })
+})
 
+export function validatePartialUser(data){
+    return partialUser.safeParse(data)
+}
 
 export function validateUser(data){
     return userSchema.safeParse(data)

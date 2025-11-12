@@ -2,17 +2,69 @@ import { prisma } from "@/app/libs/prisma";
 import { validateAthlete } from "@/schemas/athlete";
 import { createCustomError } from "@/utils/customErros";
 import { NextResponse } from "next/server";
-import { is } from "zod/v4/locales";
 
-export async function GET(){
-    const athletes = await prisma.athlete.findMany({
-        select: {
-            id: true,
-            fullName: true,
-            isPaid: true
+const fieldMap = {
+    CI: 'Cédula de Identidad',
+    fullName: 'Nombre Completo',
+    addres: 'Dirección',
+    phoneNumber: 'Número de Teléfono',
+    emergencyPhoneNumber: 'Número de Teléfono de Emergencias',
+    email: 'Correo Electrónico',
+    isPaid: 'Estado de Pago',
+    membershipType: 'Tipo de Membresía'
+}
+
+export async function GET(req){
+    const { searchParams } = new URL(req.url);
+
+    const searchQuery = searchParams.get('search') || ''
+    if(searchQuery){
+        const parseQuery = isNaN(Number(searchQuery)) ? null : Number(searchQuery);
+        if(!parseQuery) return NextResponse.json({error: "Cédula de Identidad inválida"}, {status: 400});
+        try {
+            const athlete = await prisma.athlete.findUnique({
+                where: {
+                    CI: Number(searchQuery)
+                },
+            })
+            if(!athlete) return NextResponse.json({error: "Atleta no encontrado"}, {status: 404});
+            return NextResponse.json(athlete, {status: 200});   
+        } catch (error) {
+            console.log(error.message)
+            return NextResponse.json({error: "Error desconocido"}, {status: 500});
         }
-    })
-    return NextResponse.json(athletes, {status: 200});
+    }
+
+    const page = parseInt(searchParams.get('page')) || 1;
+    const limit = 5;
+    const skip = (page - 1) * limit;
+    try {
+        const athletes = await prisma.athlete.findMany({
+            skip: skip,
+            take: limit,
+            orderBy: { createdAt: "desc" },
+            select: {
+                id: true,
+                fullName: true,
+                CI: true,
+                isPaid: true
+            }
+        })
+    
+        const lastAthlete = await prisma.athlete.findFirst({
+            select: {
+                id: true
+            }
+        })
+    
+        const hasMore = athletes.find(athlete => athlete.id === lastAthlete.id) ? false : true;
+    
+    
+    
+        return NextResponse.json({athletes, hasMore}, {status: 200});    
+    } catch (error) {
+        return NextResponse.json({error: "Error al obtener los atletas"}, {status: 500});
+    }
 }
 
 export async function POST(request){
@@ -30,7 +82,7 @@ export async function POST(request){
 
     const result = validateAthlete(datos)
     if(!result.success){
-        const customErrors = createCustomError(JSON.parse(result.error));
+        const customErrors = createCustomError(JSON.parse(result.error), fieldMap);
         return NextResponse.json({error: customErrors}, {status: 400})
     }
     const CIExists = await prisma.athlete.findUnique({

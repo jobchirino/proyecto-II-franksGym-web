@@ -15,17 +15,17 @@ export default function Home(){
   const [loading, setLoading]  = useState(true)
   console.log('aquí los atletas', athlete)
   useEffect(() => {
-    axios.get('/api/athletes')
+    axios.get('/api/athletes?page=1')
     .then((response) => {
-       setAthletes(response.data)
+       setAthletes(response.data.athletes)
+       console.log(response.data)
     })
     .catch((error) => {
       console.log(error)
     }).finally(() => setLoading(false))
   }, [])
   return(
-    <main className="flex-grow flex flex-col items-center pb-4 overflow-y-auto">
-      <h2 className={`${roboto.className} text-3xl font-semibold self-start pl-10`} >Inicio</h2>
+    <>
       {
         loading? 
         <div className="flex flex-grow justify-center items-center">
@@ -43,7 +43,7 @@ export default function Home(){
         }
         </>
       }
-    </main>
+    </>
     
   )
 }

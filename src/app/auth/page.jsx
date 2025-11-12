@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
 import ModalError from "@/components/modalError";
 import axios from "axios";
+import useAuth from "./logic";
 
 
 export const robotoAuth = Roboto_Mono({
@@ -16,9 +17,9 @@ export const robotoAuth = Roboto_Mono({
 });
 
 export default function Login(){
+    const [loading, setLoading] = useState(true)
     const [isFirst, setIsFirst] = useState(true)
     const [error, setError]     = useState('')
-    const [loading, setLoading] = useState(false)
     const router = useRouter()  
     
     useEffect(() => {
@@ -29,69 +30,13 @@ export default function Login(){
         .finally(() => setLoading(false))        
     }, [])
 
-    const handleLogin = async (e) => {
-        e.preventDefault()
-        setError('')
-        try {
-            setLoading(true)
-            const response = await signIn('credentials', {
-                redirect: false,
-                email: e.target.email.value,
-                password: e.target.password.value
-            })
-            if(!response.ok){
-                if(response.error === 'CredentialsSignin'){
-                    setError({error: 'Email o contraseña invalida'})
-                }else{
-                    setError({error: "Error desconocido"})
-                }
-            }
-            if(response.ok) router.push('/')
-                
-        } catch (error) {
-            console.log(error)
-            setError({error: "Error desconocido"})
-        } finally{
-            setLoading(false)
-        }
+    const { handleLogicLogin, handleLogicRegister } = useAuth(setLoading, setError, router)
+    const handleRegister = (e) => {
+        handleLogicRegister(e)
     }
 
-    const handleRegister = async (e) => {
-        e.preventDefault()
-        setError('')
-        const formData = new FormData
-        formData.append('email', e.target.email.value)
-        formData.append('password', e.target.password.value)
-        formData.append('confirmPassword', e.target.confirmPassword.value)
-        formData.append('name', e.target.name.value)
-        formData.append('isFirst', 'true')
-        console.log('registrando...')
-
-        try {
-            setLoading(true)
-            const user = await fetch('/api/users/registers', {
-                method: 'POST',
-                body: formData
-            })
-            const parsedUser = await user.json()
-            console.log(parsedUser)
-            if(user.ok){
-                const signInResponse = await signIn('credentials', {
-                    redirect: false,
-                    email: e.target.email.value,
-                    password: e.target.password.value
-                })
-                if(signInResponse.ok) router.push('/')
-                if(signInResponse.error) alert('Error desconocido')
-            }else{
-                setError(parsedUser)
-            }
-
-        } catch (error) {
-            alert('Error desconocido')
-        }finally{
-            setLoading(false)
-        }
+    const handleLogin = (e) => {
+        handleLogicLogin(e)
     }
 
   return(

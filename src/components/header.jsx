@@ -26,7 +26,7 @@ export default function Header({setNav}){
                 }
                 <h1 className={`${trade.className} ${isAuth? 'text-[2rem] md:text-8xl desktop:px-10 md:static md:top-0 md:text-center' : 'text-[1.8rem] md:text-5xl'} text-[#E50914] `}>Frank's Gym</h1> 
             </div>
-            <div className={`${isAuth? 'w-[35%] h-full pt-0.5 flex justify-end md:h-3/6 md:w-full md:justify-center md:items-center': 'w-[35%] md:w-auto'}`}>
+            <div className={`${isAuth? 'w-[35%] h-full pt-0.5 flex justify-end md:h-3/6 md:w-full md:justify-center md:items-center overflow-hidden': 'w-[35%] md:w-auto'}`}>
                 <Image 
                     src={logo}
                     alt="Logo"

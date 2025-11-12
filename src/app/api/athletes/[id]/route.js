@@ -11,6 +11,7 @@ export async function GET(request, context){
         if (!athlete) return NextResponse.json({error: "Atleta no encontrado"}, {status: 404});
         return NextResponse.json(athlete, {status: 200});
     } catch (error) {
+        console.log('aquí el error al obtener atleta: ', error)
         return NextResponse.json({error: "Error al obtener el atleta"}, {status: 500});
     }
 }

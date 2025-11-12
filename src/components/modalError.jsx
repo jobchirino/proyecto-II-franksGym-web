@@ -5,7 +5,7 @@ import { array } from "zod";
 export default function ModalError({error}){
     console.log('aqui el error' ,error)
     return(
-        <dialog open={error} className="w-full h-dvh bg-[#000000a5]">
+        <dialog open={error} className="w-full h-full bg-[#000000a5] z-20">
             <div className="w-full h-full flex justify-center items-center">
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center gap-3 items-center">
@@ -16,7 +16,7 @@ export default function ModalError({error}){
                         <div>
                             <ul className="text-sm flex flex-col gap-2">
                                 {
-                                    Array.isArray(error.error)?error.error.map((itemKey) => (
+                                    Array.isArray(error)?error.map((itemKey) => (
                                         <li key={Object.keys(itemKey)[0]} className="text-[#E50914] font-semibold">
                                                 {Object.keys(itemKey)[0]}
                                             {<ul>

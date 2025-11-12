@@ -39,6 +39,12 @@ body {
   clip-path: inset(0 0 0 0);
 }
 
-.font-roboto{
-  font-family: var(--font-inter);
+.without-arrows::-webkit-outer-spin-button,
+.without-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.without-arrows{
+  -moz-appearance: textfield;
 }

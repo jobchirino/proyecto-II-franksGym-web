@@ -4,6 +4,13 @@ import { NextResponse } from "next/server"
 import bcrypt from "bcrypt"
 import { createCustomError } from "@/utils/customErros"
 
+const fieldMap = {
+  name: 'Nombre',
+  email: 'Correo electrónico',
+  password: 'Contraseña',
+  confirmPassword: 'Confirmar contraseña'
+}
+
 export async function POST(request){
     try {
         const formData = await request.formData()
@@ -18,7 +25,7 @@ export async function POST(request){
         const result = validateUser(datos)
         if(!result.success) {
             console.log(result.error)
-            const customError = createCustomError(JSON.parse(result.error))
+            const customError = createCustomError(JSON.parse(result.error), fieldMap);
             return NextResponse.json({error: customError}, {status: 400})
         }
         
