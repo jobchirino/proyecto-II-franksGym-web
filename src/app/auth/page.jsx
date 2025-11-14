@@ -26,7 +26,7 @@ export default function Login(){
         setLoading(true)
         axios.get('api/users/is-first')
         .then((response) => setIsFirst(response.data.isFirst))
-        .catch((error) => setError({error: error}))
+        .catch((error) => setError({error: error.response.data.error}))
         .finally(() => setLoading(false))        
     }, [])
 
@@ -48,7 +48,7 @@ export default function Login(){
             </div> :
             
             <div className="w-full min-h-dvh flex flex-col md:flex-row">
-            <Header />
+            <Header isAuth={true}/>
 
             <div className="flex-grow flex flex-col items-center gap-2 mb-10 md:justify-center md:mb-0">
                 <h2 className={`${robotoAuth.className} text-2xl`}>{ isFirst? 'Regístrate' : 'Iniciar Sesión'}</h2>

@@ -1,25 +1,25 @@
-'use client'
+// 'use client'
 import { Trade_Winds } from "next/font/google"
 import Image from "next/image";
 import logo from '../../public/logo.svg'
 import { IoMenu } from "react-icons/io5";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 
 const trade = Trade_Winds({
   subsets: ["latin"],
   weight: '400'
 });
 
-export default function Header({setNav}){
-    const pathname = usePathname()
-    const isAuth = pathname === '/auth' ? true : false 
+export default function Header({setNav, isAuth}){
+    // const pathname = usePathname()
+    // const isAuth = pathname === '/auth' ? true : false 
     return(
         <header 
             className={`flex pr-2 ${isAuth? 'w-full md:flex-col md:h-dvh md:w-3/6 md:bg-[#323032] md:items-center md:p-0 md:justify-around': 'w-full md:justify-end'} `}
         >
             <div className={`w-[65%] flex justify-center gap-3 pt-7 ${isAuth? '' : 'md:w-auto md:items-center md:pt-0'}`}>
                 {
-                    pathname != '/auth'?
+                    !isAuth?
                         <div className="md:absolute md:top-8 md:left-3 desktop:hidden z-0">
                             <IoMenu size={40} onClick={() => setNav(true)}/> 
                         </div> : ''

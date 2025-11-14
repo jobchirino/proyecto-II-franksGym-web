@@ -8,7 +8,7 @@ export async function GET(){
                 isFirst: true
             }
         })
-        console.log('userIsFirst', userIsFirst)
+        // console.log('userIsFirst', userIsFirst)
         if (userIsFirst.length > 0) return NextResponse.json({ isFirst: false }, { status: 200 })
         
     } catch (error) {

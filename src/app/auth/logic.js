@@ -12,11 +12,12 @@ export default function useAuth(setLoading, setError, router){
             email: e.target.email.value,
             password: e.target.password.value
         }).then((response) => {
-            console.log('aqui response', response)
+            console.log('aqui response: ', response)
             if(!response.ok && response.error === 'CredentialsSignin'){
                 setLoading(false)
                 setError({error: 'Email o contraseña invalida'})  
             } 
+
             if(response.ok) router.push('/')
         }).catch((error) => {
             setLoading(false)
@@ -46,6 +47,7 @@ export default function useAuth(setLoading, setError, router){
                     password: e.target.password.value
                 }).then((signInResponse) => {
                     if(signInResponse.ok) router.push('/')
+                    
                 }).catch(() => {
                     setLoading(false)
                     setError({error: "Error desconocido"})

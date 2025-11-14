@@ -14,8 +14,12 @@ export async function POST(request){
     
         const isPasswordCorrect = await bcrypt.compare(datos.password, user.password)
         if(!isPasswordCorrect) return NextResponse.json({error: 'Contraseña incorrecta'}, {status: 401})
-    
-        return NextResponse.json({message: 'Inicio de sesión exitoso'}, {status: 200})
+        const userToReturn = {
+            id: user.id,
+            email: user.email,
+            name: user.name
+        }
+        return NextResponse.json(userToReturn, {status: 200})
         
     } catch (error) {
         console.log(error)

@@ -1,12 +1,5 @@
 import ClientsTable from "@/components/clientsTable";
 import axios from "axios";
-// import { Roboto_Mono } from "next/font/google";
-// import { useEffect, useState } from "react";
-
-// export const roboto = Roboto_Mono({
-//   subsets: ["latin"],
-//   weight: '400'
-// });
 
 export default async function Home(){
   const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/athletes?page=1`)

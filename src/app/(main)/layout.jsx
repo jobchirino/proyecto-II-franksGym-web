@@ -23,6 +23,7 @@ export default function MainLayout({children}){
         "/athlete/": "Información del Atleta"
     }
     const regex = /^\/athlete\/\d+$/
+    const regexEdit = /^\/athlete\/\d+\/edit$/
     console.log('aquí el match: ', pathname.match(regex))
     return(
         <SessionProviderComponent>
@@ -36,6 +37,8 @@ export default function MainLayout({children}){
                             {
                                 pathname.match(regex)?
                                 "Información del Atleta" :
+                                pathname.match(regexEdit)?
+                                "Editar Atleta" :
                                 titles[pathname]
                             }
                         </h2>
