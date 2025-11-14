@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
-export default function Input({label, id, type, placeholder}){
+export default function Input({label, id, type, placeholder, defaulValue}){
     const [censured, setCensured] = useState(type === "password"? true : false)
     const passwordType = censured? "password" : "text"
     return(
@@ -16,6 +16,7 @@ export default function Input({label, id, type, placeholder}){
                   placeholder={placeholder}
                   className="outline-none bg-[#727272] rounded-md pl-2 h-8 w-full without-arrows"
                   required
+                  defaultValue={defaulValue}
                 />
             </label>
             {

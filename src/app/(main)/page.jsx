@@ -1,48 +1,28 @@
-'use client'
 import ClientsTable from "@/components/clientsTable";
-import Loader from "@/components/loader";
 import axios from "axios";
-import { Roboto_Mono } from "next/font/google";
-import { useEffect, useState } from "react";
+// import { Roboto_Mono } from "next/font/google";
+// import { useEffect, useState } from "react";
 
-export const roboto = Roboto_Mono({
-  subsets: ["latin"],
-  weight: '400'
-});
+// export const roboto = Roboto_Mono({
+//   subsets: ["latin"],
+//   weight: '400'
+// });
 
-export default function Home(){
-  const [athlete, setAthletes] = useState('')
-  const [loading, setLoading]  = useState(true)
-  console.log('aquí los atletas', athlete)
-  useEffect(() => {
-    axios.get('/api/athletes?page=1')
-    .then((response) => {
-       setAthletes(response.data.athletes)
-       console.log(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    }).finally(() => setLoading(false))
-  }, [])
+export default async function Home(){
+  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/athletes?page=1`)
+  const athlete = await res
+  console.log('aquí el atleta: ', athlete)
   return(
     <>
-      {
-        loading? 
-        <div className="flex flex-grow justify-center items-center">
-          <Loader />
-        </div> :
-        <>
-        <ClientsTable data={athlete} />
+        <ClientsTable data={athlete.data.athletes} />
         {
-          athlete.length > 0? '':
+          athlete.data.athletes.length > 0? '':
           <div className="w-5/6 flex justify-center items-center flex-col desktop:items-end">
             <button className="bg-[#C23D3D] px-3 py-2 mt-3 cursor-pointer rounded-lg transition-colors duration-300 hover:bg-[#842E2E]">
               Registra tu Primer Atleta
             </button>
           </div>
         }
-        </>
-      }
     </>
     
   )

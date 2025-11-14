@@ -52,13 +52,14 @@ export async function GET(req){
         })
     
         const lastAthlete = await prisma.athlete.findFirst({
+            orderBy: { createdAt: "asc" },
             select: {
                 id: true
             }
         })
-    
+        console.log('aquí el last athlete: ', lastAthlete)
         const hasMore = athletes.find(athlete => athlete.id === lastAthlete.id) ? false : true;
-    
+        console.log('aquí el hasMore: ', hasMore)
     
     
         return NextResponse.json({athletes, hasMore}, {status: 200});    

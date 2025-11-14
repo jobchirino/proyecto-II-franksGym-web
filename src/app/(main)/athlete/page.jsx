@@ -19,6 +19,7 @@ export default function Athletes(){
         setLoading(true)
         axios.get(`/api/athletes?page=${page}`)
         .then((response) => {
+            console.log('aquí el response', response)
            setAthletes({athletes: response.data.athletes, iSearch: false})
            setHasMore(response.data.hasMore)
         })
@@ -50,11 +51,12 @@ export default function Athletes(){
                                 placeholder="Buscar"
                                 id="search"
                                 className="bg-[#72727273] rounded-xl pl-7 h-8 outline-none"
+                                required
 
                             />
                         </form>
                     </div>
-                    <ClientsTable data={athlete.athletes} />
+                    <ClientsTable data={athlete.athletes} functional={true}/>
                     <section className="flex grow-1 items-end justify-center relative">
                         <div className={`flex items-center gap-3 ${athlete.iSearch? 'invisible' : ''}`}>
 

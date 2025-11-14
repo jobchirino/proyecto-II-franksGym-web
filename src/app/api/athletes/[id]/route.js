@@ -1,9 +1,21 @@
 import { validateAthlete } from "@/schemas/athlete";
 import { createCustomError } from "@/utils/customErros";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-export async function GET(request, context){
-    const { id } = context.params;
+const fieldMap = {
+    CI: 'Cédula de Identidad',
+    fullName: 'Nombre Completo',
+    addres: 'Dirección',
+    phoneNumber: 'Número de Teléfono',
+    emergencyPhoneNumber: 'Número de Teléfono de Emergencias',
+    email: 'Correo Electrónico',
+    isPaid: 'Estado de Pago',
+    membershipType: 'Tipo de Membresía'
+}
+
+export async function GET(request,  {params }){
+    const { id } = await params;
     try {
         const athlete = await prisma.athlete.findUnique({
             where: {id: Number(id)},
@@ -16,8 +28,8 @@ export async function GET(request, context){
     }
 }
 
-export async function DELETE(request, context){
-    const { id } = context.params;
+export async function DELETE(request, { params }){
+    const { id } = await params;
     try {
         const athlete = await prisma.athlete.findUnique({
             where: {id: Number(id)},
@@ -51,10 +63,11 @@ export async function PUT(request, context){
         isPaid: formData.get('isPaid') === 'true' ? true : false,
         membershipType: formData.get('membershipType')
     }
+    console.log('aquí los datos recibidos en el put: ', datos)
     const result = validateAthlete(datos)
 
     if(!result.success){
-        const customErrors = createCustomError(JSON.parse(result.error));
+        const customErrors = createCustomError(JSON.parse(result.error), fieldMap);
         return NextResponse.json({error: customErrors}, {status: 400})
     }
     const CIExists = await prisma.athlete.findUnique({
@@ -79,6 +92,7 @@ export async function PUT(request, context){
                 ...result.data
             }
         })
+        revalidatePath(`/athlete/${id}`);
         return NextResponse.json({message: "Atleta actualizado con éxito"}, {status: 200})
     } catch (error) {
         console.log('aquí el error al actualizar atleta: ', error)

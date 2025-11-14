@@ -1,5 +1,3 @@
-'use client'
-import { useParams } from "next/navigation";
 import { IoPerson, IoHomeSharp } from "react-icons/io5";
 import { BsPersonCircle } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -7,39 +5,22 @@ import { FaRegAddressCard } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 import { BsPersonFillExclamation } from "react-icons/bs";
 import { FaCalendar } from "react-icons/fa";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Loader from "@/components/loader";
-import ModalError from "@/components/modalError";
+import { getAthlete } from "./layout";
+import Link from "next/link";
+import ConfirmationModal from "@/components/confirmationModal";
 
 
 
-export default function AthleteDetail(){
-    const { id } = useParams()
-    const [athlete, setAthlete] = useState('')
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
+export default async function AthleteDetail({params}){
     const membershipTypes = {
         por_dia: "Por Día",
         semanal: "Semanal",
         mensual: "Mensual"
     }
-    useEffect(() => {
-        axios.get(`/api/athletes/${id}`)
-        .then((response) => setAthlete(response.data))
-        .catch((error) => setError(error.response.data))
-        .finally(() => setLoading(false))
-    }, [])
-    console.log('aquí el detalle: ', athlete)
+    const { id } = params
+    const athlete = await getAthlete(id)    
     return(
         <>
-        {
-            loading? 
-            <div className="flex flex-grow justify-center items-center">
-                <Loader />
-            </div> :
-       
             <section className="w-5/6 mt-6 rounded-lg py-5 px-8 flex flex-col items-center justify-center bg-[#323032]">    
                 <section className="w-full flex gap-3 items-center">
                     <div className="p-5 rounded-full bg-[#842E2E]">
@@ -94,9 +75,14 @@ export default function AthleteDetail(){
                     </div>
                 </section>
                 
-                <ModalError error={error}/>
             </section>
-        }
+            <section className="w-5/6 mt-3 flex justify-center items-center gap-5">
+                <ConfirmationModal id={id}/>
+                <Link href={`/athlete/${id}/edit`} className="bg-[#2B80FF] px-2 py-1 rounded-md cursor-pointer transition-colors duration-200 hover:bg-[#1d48ad]"
+                    
+                >Editar
+                </Link>
+            </section>
         </>
     )
 }

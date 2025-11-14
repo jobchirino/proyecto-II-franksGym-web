@@ -21,27 +21,27 @@ export default function Nav({showNav, setNav}){
             </button>
             <ul className={`${roboto.className} flex flex-col gap-6 text-inherit pl-10 cursor-pointer`} onClick={() => setNav(false)}>
                 <li>
-                    <Link href={'/'} className="flex gap-2 items-center">
+                    <Link href={'/'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
                         <FiHome size={28}/> Inicio
                     </Link>
                 </li>
                 <li>
-                    <Link href={'/athlete'} className="flex gap-2 items-center">
+                    <Link href={'/athlete'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
                         <FaDumbbell size={28}/> Atletas
                     </Link>
                 </li>
                 <li>
-                    <Link href={'/newAthlete'} className="flex gap-2 items-center">
+                    <Link href={'/newAthlete'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
                         <IoPersonAddOutline size={28}/> Registrar Atleta
                     </Link>
                 </li>
                 <li>
-                    <Link href={'/profile'} className="flex gap-2 items-center">
+                    <Link href={'/profile'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
                         <IoPersonOutline size={28}/> Perfil
                     </Link>
                 </li>
             </ul>
-            <button className="flex gap-2 items-center pl-10 cursor-pointer" onClick={handleLogOut}>
+            <button className="flex gap-2 items-center pl-10 cursor-pointer transition-all duration-300 hover:gap-4" onClick={handleLogOut}>
                 <FiLogOut size={28}/>
                 Cerrar Sesión
             </button>
