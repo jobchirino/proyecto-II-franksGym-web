@@ -1,12 +1,12 @@
 import { robotoAuth } from "@/app/auth/page";
 import { PiWarningOctagonBold } from "react-icons/pi";
-import { array } from "zod";
+import CloseModal from "./closeModal";
 
 export default function ModalError({error}){
-    console.log('aqui el error' ,error)
+    
     return(
-        <dialog open={error} className="w-full h-full bg-[#000000a5] z-20">
-            <div className="w-full h-full flex justify-center items-center">
+        <dialog open={error} className={`w-full h-full bg-[#000000a5] z-20 modal-open absolute top-0 overflow-hidden`}>
+            <section className="w-full h-full flex justify-center items-center modal-son">
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center gap-3 items-center">
                         <PiWarningOctagonBold size={40} color="#E50914"/>
@@ -29,18 +29,18 @@ export default function ModalError({error}){
                                                 }
                                             </ul>}
                                         </li>
-                                    )) : <li className="py-3 text-center">{error.error}</li>
+                                    )) : <li className="py-3 text-center">{error}</li>
                                 }
                             </ul>
                         </div>
-                        <form method="dialog" className="w-full flex justify-center">
-                            <button className="cursor-pointer bg-[#C23D3D] px-3 py-1 rounded-md shadow-lg shadow-black">Aceptar</button>
-                        </form>
                     </section>
+                    <div className="w-full flex justify-center">
+                        <CloseModal />
                     </div>
-
                 </div>
-            </dialog>
+
+            </section>
+        </dialog>
  
     )
 }

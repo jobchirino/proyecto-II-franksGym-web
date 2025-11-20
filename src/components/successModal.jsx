@@ -1,16 +1,24 @@
 'use client'
+import { Roboto_Mono } from "next/font/google";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
-export default function SuccessModal({modal, text, setModal, redirectTo, roboto}){
+const roboto = Roboto_Mono({
+  subsets: ["latin"],
+  weight: '400'
+});
+
+export default function SuccessModal({modal, text, setModal, redirectTo}){
     const router = useRouter()
     const handleModal = () => {
-        router.push(redirectTo)
         setModal(false)
+        router.push(redirectTo)
+        if(redirectTo === '/auth') signOut()
     }
     return(
-        <dialog open={modal} className="w-full h-full bg-[#000000a5] z-20 absolute top-0">
-            <div className="w-full h-full flex justify-center items-center">
+        <dialog open={modal} className="w-full h-full bg-[#000000a5] z-20 absolute top-0 modal-open">
+            <div className="w-full h-full flex justify-center items-center modal-son">
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center">
                         <FaRegCircleCheck size={50}/>

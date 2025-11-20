@@ -3,6 +3,33 @@ import { validatePartialUser, validateUser } from "@/schemas/users";
 import { createCustomError } from "@/utils/customErros";
 import { NextResponse } from "next/server";
 
+const fieldMap = {
+    email: 'Correo Electrónico',
+    name: 'Nombre'
+};
+
+export async function GET(request, context){
+    const { id } = context.params;
+    try {
+        const user = await prisma.user.findUnique({
+            where: {id: id},
+        });
+        if (!user) return NextResponse.json({error: "Usuario no encontrado"}, {status: 404});
+        const userToReturn = {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
+        }
+        return NextResponse.json({user: userToReturn}, {status: 200});
+    } catch (error) {
+        if(error.message.includes('Error creating UUID, invalid group length'))
+            return NextResponse.json({error: "Usuario no encontrado"}, {status: 404});
+        return NextResponse.json({error: 'Error al obtener el usuario'}, {status: 500});
+    }
+}
+
 export async function DELETE(request, context){
     const { id } = context.params;
     try {
@@ -29,16 +56,16 @@ export async function PUT(request, context){
         const user = await prisma.user.findUnique({
             where: {id: id},
         });
-        // if (!user) return NextResponse.json({error: "Usuario no encontrado"}, {status: 404});
+        if (!user) return NextResponse.json({error: "Usuario no encontrado"}, {status: 404});
     
         const formData = await request.formData()
         const updateData = {
             email: formData.get('email'),
             name: formData.get('name')
         }
-        const validateData = validatePartialUser(updateData);
+        const validateData = validatePartialUser(updateData,);
         if(!validateData.success) {
-            const customError = createCustomError(JSON.parse(validateData.error))
+            const customError = createCustomError(JSON.parse(validateData.error), fieldMap)
             return NextResponse.json({error: customError}, {status: 400});
         }
 

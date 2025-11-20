@@ -12,16 +12,19 @@ const roboto = Roboto_Mono({
   weight: '400'
 });
 
-export default function ConfirmationModal({id}){
+export default function ConfirmationModal({id, isUserManage}){
     const [modal, setModal]               = useState(false)
     const [loading, setLoading]           = useState(false)
     const [successModal, setSuccessModal] = useState(false)
     const [error, setError]               = useState(false)
     console.log('aquí la url', `api/athletes/${id}`)
+    const deleteParam = isUserManage ? 'users' : 'athletes'
+    const redirectTo = isUserManage? '/manage' : '/athlete'
+    const succesText = isUserManage? 'Usuario eliminado con éxito' : 'Atleta eliminado con éxito'
     const handleDelete = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.delete(`/api/athletes/${id}`)
+        axios.delete(`/api/${deleteParam}/${id}`)
         .then(() => {
             setModal(false)
             setSuccessModal(true)
@@ -37,14 +40,20 @@ export default function ConfirmationModal({id}){
             Eliminar
         </button>
 
-        <dialog open={modal} className={`w-full h-full  ${loading? 'bg-[#1B1C1F]' : 'bg-[#000000a5]'} z-20 absolute top-0`}>
+        <dialog open={modal} className={`w-full h-full  ${loading? 'bg-[#1B1C1F]' : 'bg-[#000000a5]'} z-20 absolute top-0 modal-open`}>
             { loading ? <div className="w-full h-full flex justify-center items-center"><Loader /></div> :
 
-            <div className="w-full h-full flex justify-center items-center">
-                <div className="px-6 py-4 bg-[#323032] w-full text-white rounded-lg shadow-[#E50914] desktop:w-[35%]">
+            <div className="w-full h-full flex justify-center items-center modal-son">
+                <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-[35%]">
                     <header className="flex gap-2 justify-center items-center w-full">
                         <RiDeleteBin6Line size={30}/>
-                        <h2 className={`text-3xl ${roboto.className}`}>Eliminar Atleta</h2>
+                        <h2 className={`text-3xl ${roboto.className} text-center`}>
+                            {
+                                isUserManage? 
+                                'Eliminar Usuario' :
+                                'Eliminar Atleta'
+                            }
+                        </h2>
                     </header>
                     <section className="w-full py-3 flex justify-center items-center flex-col">
                         <p className="text-center">Esta acción no se puede deshacer</p>
@@ -64,10 +73,9 @@ export default function ConfirmationModal({id}){
         </dialog>
         <SuccessModal 
             modal={successModal} 
-            redirectTo={`/athlete`} 
+            redirectTo={redirectTo} 
             setModal={setSuccessModal} 
-            text={'Atleta eliminado con exito'}  
-            roboto={roboto}  
+            text={succesText}  
         />
         <ModalError error={error}/>
         </>

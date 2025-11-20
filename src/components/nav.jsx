@@ -2,11 +2,14 @@
 import { IoPersonOutline, IoPersonAddOutline, IoClose } from "react-icons/io5";
 import { FiHome, FiLogOut } from "react-icons/fi";
 import { FaDumbbell } from "react-icons/fa";
+import { RiGroupLine } from "react-icons/ri";
 import { roboto } from "@/app/(main)/layout";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav({showNav, setNav}){
+    const { data: session } = useSession()
+    console.log('aquí los datos del usuario: ', session)
     const handleLogOut = () => {
         signOut()
     }
@@ -40,6 +43,14 @@ export default function Nav({showNav, setNav}){
                         <IoPersonOutline size={28}/> Perfil
                     </Link>
                 </li>
+                {
+                    session?.user.isFirst ?
+                    <li>
+                        <Link href={'/manage'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
+                            <RiGroupLine size={28}/> Gestionar <br /> Usuarios
+                        </Link>
+                    </li> : ''
+                }
             </ul>
             <button className="flex gap-2 items-center pl-10 cursor-pointer transition-all duration-300 hover:gap-4" onClick={handleLogOut}>
                 <FiLogOut size={28}/>

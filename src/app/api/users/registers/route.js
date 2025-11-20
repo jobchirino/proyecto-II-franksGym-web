@@ -34,7 +34,7 @@ export async function POST(request){
                 email: result.data.email
             }
         })
-        if(testUserExist) return NextResponse.json({error: 'El correo ya está en uso'}, {status: 400})
+        if(testUserExist) return NextResponse.json({error: 'El correo ya está en uso'}, {status: 409})
     
         if(result.data.password !== result.data.confirmPassword) return NextResponse.json({error: 'Las contraseñas no coinciden'}, {status: 400})
         const hashedPassword = await bcrypt.hash(result.data.password, 10)
@@ -42,7 +42,7 @@ export async function POST(request){
             data: {
                 email: result.data.email,
                 password: hashedPassword,
-                isFirst: result.data.isFirst,
+                isFirst: result.data.isFirst || false,
                 name: result.data.name
             }
         })

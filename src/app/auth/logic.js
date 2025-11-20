@@ -15,14 +15,14 @@ export default function useAuth(setLoading, setError, router){
             console.log('aqui response: ', response)
             if(!response.ok && response.error === 'CredentialsSignin'){
                 setLoading(false)
-                setError({error: 'Email o contraseña invalida'})  
+                setError('Email o contraseña invalida')  
             } 
 
             if(response.ok) router.push('/')
         }).catch((error) => {
             setLoading(false)
             console.log('aquí error: ', error)
-            setError({error: "Error desconocido"})
+            setError("Error desconocido")
         })
     }
 
@@ -50,14 +50,12 @@ export default function useAuth(setLoading, setError, router){
                     
                 }).catch(() => {
                     setLoading(false)
-                    setError({error: "Error desconocido"})
+                    setError("Error desconocido")
                 })
             }
         }).catch((err) => {
             setLoading(false)
-            if(Array.isArray(err.response.data.error)) setError(err.response.data.error)
-            if(err.response.status === 403) setError({error: err.response.data.error})
-            if(err.response.status === 500) setError({error: "Error desconocido"})
+            setError(err.response.data.error)
         })
   
     }

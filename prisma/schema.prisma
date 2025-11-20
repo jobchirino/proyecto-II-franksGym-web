@@ -20,6 +20,8 @@ model User{
   password String
   name String
   isFirst Boolean
+  forgotPasswordToken String?
+  forgotPasswordExpire DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

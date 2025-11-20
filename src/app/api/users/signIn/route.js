@@ -17,7 +17,8 @@ export async function POST(request){
         const userToReturn = {
             id: user.id,
             email: user.email,
-            name: user.name
+            name: user.name,
+            isFirst: user.isFirst
         }
         return NextResponse.json(userToReturn, {status: 200})
         

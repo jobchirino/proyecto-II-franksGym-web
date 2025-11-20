@@ -1,42 +1,43 @@
 'use client'
-import { useRouter } from "next/navigation"
 import Input from "./input"
 import axios from "axios"
 import { useState } from "react"
 import Loader from "./loader"
 import ModalError from "./modalError"
+import SuccessModal from "./successModal"
 
 export default function AthleteForm({edit, defaultValue, id}){
-    const router = useRouter()
     const [error, setError] = useState('')
+    const [succes, setSucces] = useState(false)
     const [loading, setLoading] = useState(false)
     
     const handleSubmitRegister = (e, formData) => {
         e.preventDefault();
+        setError('')
         setLoading(true);
         axios.post('/api/athletes', formData)
         .then((response) => {
-            alert("Atleta creado con éxito")
+            setSucces(true)
             console.log(response.data)
         }).catch((error) => {
-            if(Array.isArray(error.response.data.error)) setError(error.response.data.error)
-            if(error.response.status === 409) setError({error: error.response.data.error})
-            if(error.response.status === 500) setError({error: "Error descnonocido"})
+            setError(error.response.data.error)
+            // returnError(error, setError)
         }).finally(() => setLoading(false)) 
         
     }
 
     const handleSubmitEdit = (e, formData) => {
-        setLoading(true)
         e.preventDefault()
+        setLoading(true)
+        setError('')
         axios.put(`/api/athletes/${id}`, formData)
         .then(() => {
-            router.push(`/athlete/${id}`)
-            router.refresh()
+            setSucces(true)
         })
         .catch((error) => {
             console.log('aquí el error desde el com:', error)
             setLoading(false)
+            // returnError(error, setError)
             setError(error.response.data.error)
         })
     }
@@ -58,6 +59,8 @@ export default function AthleteForm({edit, defaultValue, id}){
         const form = e.target.closest('form')
         if(form) form.reset()
     }
+    const succesText = edit? 'Atleta editado correctamente' : 'Atleta registrado correctamente'
+    const succesRedirectTo = edit? `/athlete/${id}` : '/newAthlete'
     return(
         <>
         {
@@ -136,6 +139,12 @@ export default function AthleteForm({edit, defaultValue, id}){
         </div>
         }
         <ModalError error={error} />
+        <SuccessModal 
+            text={succesText}
+            redirectTo={succesRedirectTo}
+            modal={succes}
+            setModal={setSucces}
+        />
         </>
         
     )

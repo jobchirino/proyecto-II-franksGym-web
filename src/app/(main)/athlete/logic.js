@@ -10,7 +10,7 @@ export function useFetchSearch(setAthletes, setError, setLoading) {
             setAthletes({athletes: [response.data], iSearch: true});
         }).catch((error) => {
             console.log(error);
-            setError({error: error.response.data.error});
+            setError(error.response.data.error);
         }).finally(() => setLoading(false));
     }
 
