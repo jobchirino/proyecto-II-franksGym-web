@@ -1,14 +1,13 @@
 'use client'
-import Header from "@/components/header";
 import Input from "@/components/input";
 import { useEffect, useState } from "react";
 import { Roboto_Mono } from "next/font/google";
 import { useRouter } from "next/navigation";
-import Loader from "@/components/loader";
 import ModalError from "@/components/modalError";
 import axios from "axios";
 import useAuth from "./logic";
 import Link from "next/link";
+import Loading from "./loading";
 
 
 export const robotoAuth = Roboto_Mono({
@@ -42,14 +41,8 @@ export default function Login(){
   return(
     <>
         {
-            loading? 
-            <div className="w-full min-h-dvh flex justify-center items-center">
-                <Loader />
-            </div> :
+            loading? <Loading /> : 
             
-            <div className="w-full min-h-dvh flex flex-col md:flex-row">
-            <Header isAuth={true}/>
-
             <div className="flex-grow flex flex-col items-center gap-2 mb-10 md:justify-center md:mb-0">
                 <h2 className={`${robotoAuth.className} text-2xl`}>{ isFirst? 'Regístrate' : 'Iniciar Sesión'}</h2>
                 <div className="w-5/6 bg-[#323032] py-7 rounded-lg flex flex-col items-center gap-6 shadow-black shadow-xl desktop:w-3/6 2xl:max-w-2/6 ">
@@ -98,7 +91,7 @@ export default function Login(){
                     </button>
                     </form>
                 </div>
-            </div>
+
             <ModalError error={error}/>
             </div>
         }
