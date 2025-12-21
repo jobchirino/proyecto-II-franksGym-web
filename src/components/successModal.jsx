@@ -17,7 +17,7 @@ export default function SuccessModal({modal, text, setModal, redirectTo}){
         if(redirectTo === '/auth') signOut()
     }
     return(
-        <dialog open={modal} className="w-full h-full bg-[#000000a5] z-20 absolute top-0 modal-open">
+        <dialog open={modal} className="w-full desktop:w-[80%] h-full bg-[#000000a5] z-20 fixed top-0 desktop:ml-[20%] modal-open">
             <div className="w-full h-full flex justify-center items-center modal-son">
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center">

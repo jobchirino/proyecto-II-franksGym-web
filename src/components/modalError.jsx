@@ -5,8 +5,8 @@ import CloseModal from "./closeModal";
 export default function ModalError({error}){
     
     return(
-        <dialog open={error} className={`w-full h-full bg-[#000000a5] z-20 modal-open absolute top-0 overflow-hidden`}>
-            <section className="w-full h-full flex justify-center items-center modal-son">
+        <dialog open={error} className={`w-full desktop:w-[80%] h-full bg-[#000000a5] z-20 modal-open fixed top-0 desktop:ml-[20%] overflow-hidden`}>
+            <section className="w-full h-full modal-son overflow-y-auto flex justify-center items-center">
                 <div className="px-6 py-4 bg-[#323032] w-4/5 text-white rounded-lg shadow-[#E50914] desktop:w-2/6">
                     <header className="w-full flex justify-center gap-3 items-center">
                         <PiWarningOctagonBold size={40} color="#E50914"/>

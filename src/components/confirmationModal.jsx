@@ -40,7 +40,7 @@ export default function ConfirmationModal({id, isUserManage}){
             Eliminar
         </button>
 
-        <dialog open={modal} className={`w-full h-full  ${loading? 'bg-[#1B1C1F]' : 'bg-[#000000a5]'} z-20 absolute top-0 modal-open`}>
+        <dialog open={modal} className={`w-full desktop:w-[80%] h-full  ${loading? 'bg-[#1B1C1F]' : 'bg-[#000000a5]'} z-20 fixed top-0 desktop:ml-[20%] modal-open`}>
             { loading ? <div className="w-full h-full flex justify-center items-center"><Loader /></div> :
 
             <div className="w-full h-full flex justify-center items-center modal-son">

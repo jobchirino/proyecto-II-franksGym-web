@@ -7,3 +7,5 @@ export default defineConfig({
     url: env('DATABASE_URL'),
   },
 })
+
+//lt --port 3000 --subdomain franksgym
