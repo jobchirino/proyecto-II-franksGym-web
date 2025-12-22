@@ -1,7 +1,7 @@
 // 'use client'
 import { Trade_Winds } from "next/font/google"
 import Image from "next/image";
-import logo from '../../public/logo.svg'
+import logo from '../../public/logo.webp'
 import { IoMenu } from "react-icons/io5";
 // import { usePathname } from "next/navigation";
 
@@ -30,8 +30,9 @@ export default function Header({setNav, isAuth}){
                 <Image 
                     src={logo}
                     alt="Logo"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className={`${isAuth? 'md:size-96' : ''}`}
+                    // sizes="(min-width: 1020px) 100%, (min-width: 1200px) 50vw, 33vw"
+                    className={`${isAuth? 'w-32 md:w-80' : 'w-40'} h-auto object-cover` }
+                    priority
                 />
 
             </div>
