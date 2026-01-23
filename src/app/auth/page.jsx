@@ -43,9 +43,9 @@ export default function Login(){
         {
             loading? <Loading /> : 
             
-            <div className="flex-grow flex flex-col items-center gap-2 mb-10 md:justify-center md:mb-0">
-                <h2 className={`${robotoAuth.className} text-2xl`}>{ isFirst? 'Regístrate' : 'Iniciar Sesión'}</h2>
-                <div className="w-5/6 bg-[#323032] py-7 rounded-lg flex flex-col items-center gap-6 shadow-black shadow-xl desktop:w-3/6 2xl:max-w-2/6 ">
+            <div className={`${robotoAuth.className} flex-grow flex flex-col items-center gap-2 mb-10 md:justify-center md:mb-0`}>
+                <h2 className={`text-2xl`}>{ isFirst? 'Regístrate' : 'Iniciar Sesión'}</h2>
+                <div className="w-5/6 bg-[#323032] py-7 rounded-lg flex flex-col items-center gap-6 shadow-[#0000009d] shadow-xl desktop:w-3/6 2xl:max-w-2/6 ">
                     <form className="w-[90%] flex flex-col gap-4 px-5 items-center" onSubmit={isFirst? handleRegister : handleLogin}>
                     <div className={`w-full flex flex-col gap-3 items-center`}>
                         <Input 
