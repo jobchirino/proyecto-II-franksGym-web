@@ -15,7 +15,7 @@ export default function Nav({showNav, setNav}){
     }
     
     return(
-        <nav className={`absolute h-dvh w-4/6 bg-[#323032] flex flex-col justify-around items-star py-6 transition-all duration-300 z-30 desktop:w-[20%] desktop:relative desktop:nav-show ${showNav? 'nav-show' : 'nav-hidden'}`}>
+        <nav className={`absolute h-dvh w-4/6 bg-[#323032] flex flex-col justify-around items-star py-6 transition-all duration-300 z-20 desktop:w-[20%] desktop:relative desktop:nav-show ${showNav? 'nav-show' : 'nav-hidden'}`}>
             <button className="absolute top-3 left-5 cursor-pointer desktop:hidden" onClick={() => setNav(false)}>
                 <IoClose size={28} color="white"/>
             </button>
