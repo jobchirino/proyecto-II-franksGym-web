@@ -17,7 +17,7 @@ export default async function AthleteDetail({params}){
         semanal: "Semanal",
         mensual: "Mensual"
     }
-    const { id } = params
+    const { id } = await params
     const athlete = await getAthlete(id)    
     return(
         <>
@@ -61,7 +61,7 @@ export default async function AthleteDetail({params}){
                     <div className="flex flex-col gap-4 desktop:w-2/6 desktop:justify-center">
                         <div className="flex gap-3 flex-col items-start">
                             <p className="font-semibold">Estatus de pago:</p>
-                            <div className={`${athlete.isPaid? 'bg-[#44FF00]' : 'bg-[#E50914]'} w-2/6 text-center font-semibold py-1 px-2 rounded-lg text-black`}>
+                            <div className={`${athlete.isPaid? 'bg-[#44FF00]' : 'bg-[#E50914]'} desktop:w-auto w-2/6 text-center font-semibold py-1 px-2 rounded-lg text-black`}>
                                 {athlete.isPaid? 'Pago' : 'Pendiente'}
                             </div>
                         </div>

@@ -24,11 +24,11 @@ export default function UserDetailComponent({data, isManage}){
                 <div className="w-full flex flex-col gap-3 pl-4">
                     <div className="flex gap-2 items-center">
                         <BsPersonCircle color="white" size={30}/>
-                        <p>{data.name}</p>
+                        <p aria-label={`Nombre del usuario: ${data.name}`}>{data.name}</p>
                     </div>
                     <div className="flex gap-2 items-center">
                         <MdEmail color="white" size={30}/>
-                        <p>{data.email}</p>
+                        <p aria-label={`Correo electrónico del usuario: ${data.email}`}>{data.email}</p>
                     </div>
                 </div>
                 <div className="self-end">

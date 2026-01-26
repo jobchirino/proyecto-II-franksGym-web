@@ -133,7 +133,7 @@ export default function AthleteForm({edit, defaultValue, id}){
                     <button type="button" className="bg-[#2B80FF] px-2 py-1 rounded-md cursor-pointer transition-colors duration-200 hover:bg-[#1d48ad]" onClick={handleClear}>
                         {edit? 'Restaurar' : 'Limpiar'}
                     </button>
-                    <input type="submit" value={edit? "Editar" : "Registrar"} className="cursor-pointer bg-[#C23D3D] px-2 py-1 rounded-md transition-colors duration-200 hover:bg-[#842E2E]"/>
+                    <input type="submit" aria-label={edit? "Editar" : "Registrar"} value={edit? "Editar" : "Registrar"} className="cursor-pointer bg-[#C23D3D] px-2 py-1 rounded-md transition-colors duration-200 hover:bg-[#842E2E]"/>
                 </div>
             </form>
         </div>

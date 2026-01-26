@@ -16,13 +16,13 @@ export default function Nav({showNav, setNav}){
     
     return(
         <nav className={`absolute h-dvh w-4/6 bg-[#323032] flex flex-col justify-around items-star py-6 transition-all duration-300 z-20 desktop:w-[20%] desktop:relative desktop:nav-show ${showNav? 'nav-show' : 'nav-hidden'}`}>
-            <button className="absolute top-3 left-5 cursor-pointer desktop:hidden" onClick={() => setNav(false)}>
+            <button aria-label="Cerrar navegación" className="absolute top-3 left-5 cursor-pointer desktop:hidden" onClick={() => setNav(false)}>
                 <IoClose size={28} color="white"/>
             </button>
-            <button className="self-center p-6 rounded-full bg-[#4C4C4C] cursor-pointer">
+            <button aria-label="Ir al perfil" className="self-center p-6 rounded-full bg-[#4C4C4C] cursor-pointer">
                 <IoPersonOutline color="#C23D3D" size={65}/>
             </button>
-            <ul className={`${roboto.className} flex flex-col gap-6 text-inherit pl-10 cursor-pointer`} onClick={() => setNav(false)}>
+            <ul aria-label="Navegacion" className={`${roboto.className} flex flex-col gap-6 text-inherit pl-10 cursor-pointer`} onClick={() => setNav(false)}>
                 <li>
                     <Link href={'/'} className="flex gap-2 items-center transition-all duration-300 hover:gap-4">
                         <FiHome size={28}/> Inicio

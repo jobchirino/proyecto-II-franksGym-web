@@ -45,8 +45,8 @@ export async function DELETE(request, { params }){
     }
 }
 
-export async function PUT(request, context){
-    const { id } = context.params;
+export async function PUT(request, { params }){
+    const { id } = await params;
     const athlete = await prisma.athlete.findUnique({
         where: {id: Number(id)},
     });

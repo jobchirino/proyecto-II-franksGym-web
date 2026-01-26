@@ -43,10 +43,11 @@ export default function Athletes(){
                 <>
                     <div className="self-start ml-8 desktop:ml-0 pt-4 desktop:pt-0 relative desktop:absolute desktop:top-2 desktop:left-[22%]">
                         <form onSubmit={handleSearch}>
-                            <button className="cursor-pointer">
+                            <button aria-label="Buscar atleta" className="cursor-pointer">
                                 <FaSearch className="absolute top-6 desktop:top-2 left-2"/>
                             </button>
-                            <input 
+                            <input
+                                aria-label="Cuadro de búsqueda"
                                 type="search" 
                                 placeholder="Buscar"
                                 id="search"
@@ -60,9 +61,9 @@ export default function Athletes(){
                     <section className="flex grow-1 items-end justify-center relative">
                         <div className={`flex items-center gap-3 ${athlete.iSearch? 'invisible' : ''}`}>
 
-                            <button className={`cursor-pointer ${page === 1? 'invisible' : ''}`} onClick={() => setPage(page - 1)}><MdKeyboardDoubleArrowLeft color="#D80948" size={50}/></button>
-                            <p className="text-3xl">{page}</p>
-                            <button className={`cursor-pointer ${hasMore? '' : 'invisible'}`} onClick={() => setPage(page + 1)}><MdKeyboardDoubleArrowRight color="#D80948" size={50}/></button>
+                            <button className={`cursor-pointer ${page === 1? 'invisible' : ''}`} aria-label="Página anterior" onClick={() => setPage(page - 1)}><MdKeyboardDoubleArrowLeft color="#D80948" size={50}/></button>
+                            <p className="text-3xl" aria-label={`Número de página ${page}`}>{page}</p>
+                            <button className={`cursor-pointer ${hasMore? '' : 'invisible'}`} aria-label="Siguiente página" onClick={() => setPage(page + 1)}><MdKeyboardDoubleArrowRight color="#D80948" size={50}/></button>
 
                         </div>
                     </section>

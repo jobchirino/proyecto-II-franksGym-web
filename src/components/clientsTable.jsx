@@ -12,16 +12,17 @@ const RenderItem = ({client, idx, functional, data}) => (
         <td 
             className={`py-2 text-left pl-3 text-sm relative ${functional? 'active:underline' : ''}
             ${data.length === 1 || data.length - idx === 1? '' : 'border-b-3 border-[#4C4C4C]'}`}
-        >
+        >   
             {
                 functional?
                 <Link href={`/athlete/${client.id}`} className="absolute top-0 left-0 w-full h-full z-10" aria-label="Ver Detalles"></Link> : ''
             }
-                {client.fullName} <br />
-                {client.CI}
+                <span role="text" aria-label="Nombre">{client.fullName}</span> <br />
+                <span aria-label="Cédula">{client.CI}</span>
         </td>
 
         <td 
+        
             className={`py-2 text-left 
             ${data.length === 1 || data.length - idx === 1? '' : 'border-b-3 border-[#4C4C4C]'}`}
         >
@@ -29,7 +30,7 @@ const RenderItem = ({client, idx, functional, data}) => (
                 functional?
                 <Link href={`/athlete/${client.id}`} className="absolute top-0 left-0 w-full h-full z-10" aria-label="Ver Detalles"></Link> : ''
             }
-            <div className={`${client.isPaid? 'bg-[#44FF00]' : 'bg-[#E50914]'} w-5/6 md:w-2/6 text-center font-semibold py-1 px-2 rounded-lg text-black`}>
+            <div aria-label="Estatus" className={`${client.isPaid? 'bg-[#44FF00]' : 'bg-[#E50914]'} w-5/6 md:w-2/6 text-center font-semibold py-1 px-2 rounded-lg text-black`}>
                 {client.isPaid? 'Pago' : 'Pendiente'}
             </div>
         </td>

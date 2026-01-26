@@ -8,8 +8,8 @@ const fieldMap = {
     name: 'Nombre'
 };
 
-export async function GET(request, context){
-    const { id } = context.params;
+export async function GET(request, { params }){
+    const { id } = await params;
     try {
         const user = await prisma.user.findUnique({
             where: {id: id},
@@ -30,8 +30,8 @@ export async function GET(request, context){
     }
 }
 
-export async function DELETE(request, context){
-    const { id } = context.params;
+export async function DELETE(request, { params }){
+    const { id } = await params;
     try {
         const user = await prisma.user.findUnique({
             where: {id: id},
@@ -49,8 +49,8 @@ export async function DELETE(request, context){
     }
 }
 
-export async function PUT(request, context){
-    const { id } = context.params;
+export async function PUT(request, { params }){
+    const { id } = await params;
     
     try {
         const user = await prisma.user.findUnique({

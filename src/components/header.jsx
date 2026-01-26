@@ -21,7 +21,9 @@ export default function Header({setNav, isAuth}){
                 {
                     !isAuth?
                         <div className="md:absolute md:top-8 md:left-3 desktop:hidden z-0">
-                            <IoMenu size={40} onClick={() => setNav(true)}/> 
+                            <button aria-label="Abrir navegación">
+                                <IoMenu size={40} onClick={() => setNav(true)}/> 
+                            </button>
                         </div> : ''
                 }
                 <h1 className={`${trade.className} ${isAuth? 'text-[2rem] md:text-8xl desktop:px-10 md:static md:top-0 md:text-center' : 'text-[1.8rem] md:text-5xl'} text-[#E50914] `}>Frank's Gym</h1> 

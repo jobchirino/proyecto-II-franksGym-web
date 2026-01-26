@@ -14,7 +14,7 @@ export default function ModalError({error}){
                     </header>
                     <section className="flex flex-col gap-3">
                         <div>
-                            <ul className="text-sm flex flex-col gap-2">
+                            <ul className="text-sm flex flex-col gap-2" aria-label="Lista de errores">
                                 {
                                     Array.isArray(error)?error.map((itemKey) => (
                                         <li key={Object.keys(itemKey)[0]} className="text-[#E50914] font-semibold">
@@ -29,7 +29,7 @@ export default function ModalError({error}){
                                                 }
                                             </ul>}
                                         </li>
-                                    )) : <li className="py-3 text-center">{error}</li>
+                                    )) : <li className="py-3 text-center" aria-label={error}>{error}</li>
                                 }
                             </ul>
                         </div>
