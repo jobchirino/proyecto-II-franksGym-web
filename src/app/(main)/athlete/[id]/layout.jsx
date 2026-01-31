@@ -1,7 +1,7 @@
 export async function getAthlete(id){
     try {
-        console.log('aquí el fetch: ', `${process.env.NEXTAUTH_URL}/api/athlete/${id}`)
-        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/athletes/${id}`, 
+        console.log('aquí el fetch: ', `${process.env.NEXT_PUBLIC_API_URL}/api/athlete/${id}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes/${id}`, 
             {cache: 'force-cache', next: { tags: [`athlete:${id}`] }}
         )
         const athlete = await res.json()
