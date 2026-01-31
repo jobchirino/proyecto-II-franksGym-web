@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export default async function ManageUsers(){
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/users`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`)
     const users = await res.json()
     console.log('aquí los users: ', users)
     return(
