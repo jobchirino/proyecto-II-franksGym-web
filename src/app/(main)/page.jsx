@@ -1,5 +1,6 @@
 import ClientsTable from "@/components/clientsTable";
-import axios from "axios";
+// import axios from "axios";
+import { prisma } from "../libs/prisma";
 
 export default async function Home(){
   // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes?page=1`)
