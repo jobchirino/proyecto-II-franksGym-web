@@ -2,7 +2,11 @@ import { prisma } from "@/app/libs/prisma"
 import Link from "next/link"
 
 export default async function ManageUsers(){
-    const users = await prisma.user.findMany()
+    const users = await prisma.user.findMany({
+        where: {
+            isFirst: false
+        }
+    })
     console.log('aquí los users: ', users)
     return(
         <div className="w-5/6 flex item-center mt-6 flex-col">
