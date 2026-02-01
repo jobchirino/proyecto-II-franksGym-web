@@ -3,7 +3,6 @@ import ClientsTable from "@/components/clientsTable";
 import { prisma } from "../libs/prisma";
 
 export default async function Home(){
-  // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes?page=1`)
   const athletes = await prisma.athlete.findMany({
     // skip: skip,
     take: 5,

@@ -1,18 +1,18 @@
+import { prisma } from "@/app/libs/prisma"
 import Link from "next/link"
 
 export default async function ManageUsers(){
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`)
-    const users = await res.json()
+    const users = await prisma.user.findMany()
     console.log('aquí los users: ', users)
     return(
         <div className="w-5/6 flex item-center mt-6 flex-col">
             <ul aria-label="Lista de usuarios" className="w-5/6 max-h-[45dvh] border-2 border-[#4C4C4C] rounded-lg overflow-y-auto scroll-style">
                 {
-                    users.users.length > 0?
-                    users.users.map((item, idx) => (
+                    users.length > 0?
+                    users.map((item, idx) => (
                         <li 
                             key={item.id} 
-                            className={`${users.users.length - 1 === idx? '' : 'border-b-2 border-[#4C4C4C]'} 
+                            className={`${users.length - 1 === idx? '' : 'border-b-2 border-[#4C4C4C]'} 
                             py-3 hover:bg-[#4C4C4C] cursor-pointer transition-colors 
                             duration-300 px-4`}
                         >

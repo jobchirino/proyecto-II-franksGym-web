@@ -1,11 +1,17 @@
+import { prisma } from "@/app/libs/prisma"
+
 export async function getAthlete(id){
     try {
         console.log('aquí el fetch: ', `${process.env.NEXT_PUBLIC_API_URL}/api/athlete/${id}`)
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes/${id}`, 
-            {cache: 'force-cache', next: { tags: [`athlete:${id}`] }}
-        )
-        const athlete = await res.json()
-        if(!res.ok) throw Error(athlete.message || JSON.stringify(athlete))
+        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes/${id}`, 
+        //     {cache: 'force-cache', next: { tags: [`athlete:${id}`] }}
+        // )
+        const athlete = await prisma.athlete.findUnique({
+            where: { id: parseInt(id) },
+        })
+        // const athlete = await res.json()
+        //
+        if(!athlete) throw Error("Atleta no encontrado")
         console.log('aquí el atleta: ', athlete)
         return athlete
     } catch (error) {
