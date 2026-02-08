@@ -34,7 +34,7 @@ export default async function ManageUsers(){
                 }
             </ul>
             <section className="w-5/6 flex justify-end py-4">
-                <Link href={'/manage/newAthlete'} className="bg-[#C23D3D] px-2 py-1 rounded-md cursor-pointer transition-colors duration-200 hover:bg-[#842E2E]">
+                <Link href={'/manage/newUser'} className="bg-[#C23D3D] px-2 py-1 rounded-md cursor-pointer transition-colors duration-200 hover:bg-[#842E2E]">
                     Crear nuevo usuario
                 </Link>
             </section>

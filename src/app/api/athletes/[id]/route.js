@@ -1,3 +1,4 @@
+import { prisma } from "@/app/libs/prisma";
 import { validateAthlete } from "@/schemas/athlete";
 import { createCustomError } from "@/utils/customErros";
 import { revalidatePath } from "next/cache";
