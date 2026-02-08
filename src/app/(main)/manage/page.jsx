@@ -1,6 +1,8 @@
 import { prisma } from "@/app/libs/prisma"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic';
+
 export default async function ManageUsers(){
     const users = await prisma.user.findMany({
         where: {
