@@ -13,7 +13,7 @@ export default function useAuth(setLoading, setError, router){
             password: e.target.password.value
         }).then((response) => {
             console.log('aqui response: ', response)
-            if(!response.ok && response.error === 'CredentialsSignin'){
+            if(!response.ok){
                 setLoading(false)
                 setError('Email o contraseña invalida')  
             } 
