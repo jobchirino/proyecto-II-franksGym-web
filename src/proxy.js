@@ -11,9 +11,9 @@ export async function proxy(req){
 
     if (!token) {
         console.log('sin token: ',pathname )
-        // if(isApiRoute && !authRoutes.includes(pathname)){
-        //     return NextResponse.json({error: 'No autorizado'}, { status: 401 })
-        // }
+        if(isApiRoute && !authRoutes.includes(pathname)){
+            return NextResponse.json({error: 'No autorizado'}, { status: 401 })
+        }
         return NextResponse.redirect(new URL('/auth', req.url));
     }
     console.log('con token')
