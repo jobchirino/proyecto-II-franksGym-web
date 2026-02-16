@@ -10,10 +10,10 @@ export async function POST(request){
                 email: datos.email
             }
         })
-        if(!user) return NextResponse.json({error: 'Este usuario no existe'}, {status: 404})
+        if(!user) return NextResponse.json({error: 'Error al iniciar sesión'}, {status: 404})
     
         const isPasswordCorrect = await bcrypt.compare(datos.password, user.password)
-        if(!isPasswordCorrect) return NextResponse.json({error: 'Contraseña incorrecta'}, {status: 401})
+        if(!isPasswordCorrect) return NextResponse.json({error: 'Error al iniciar sesión'}, {status: 401})
         const userToReturn = {
             id: user.id,
             email: user.email,
