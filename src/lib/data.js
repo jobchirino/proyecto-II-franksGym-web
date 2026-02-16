@@ -2,36 +2,33 @@ import { prisma } from "@/app/libs/prisma";
 
 const ITEMS_PER_PAGE = 5
 
-export async function fetchAthletesPerPage({ searchQuery, page }) {
+export async function fetchAthletesPerPage({ searchQuery, page } = { page: 1 }) {
     try {
         if (searchQuery) {
             const parseQuery = isNaN(Number(searchQuery)) ? null : Number(searchQuery);
             if (!parseQuery) {
-                return { 
-                    success: false, 
+                return {
                     error: "Cédula de Identidad inválida",
-                    data: [] 
+                    data: []
                 }
             }
-            
+
             const athlete = await prisma.athlete.findUnique({
                 where: {
                     CI: Number(searchQuery)
                 },
             })
-            
+
             if (!athlete) {
-                return { 
-                    success: false, 
+                return {
                     error: "Atleta no encontrado",
                     data: []
                 }
             }
-            
-            return { 
-                success: true, 
+
+            return {
                 data: [athlete],
-                error: null 
+                error: null
             }
         }
 
@@ -48,18 +45,16 @@ export async function fetchAthletesPerPage({ searchQuery, page }) {
             }
         })
 
-        return { 
-            success: true, 
+        return {
             data: athletes,
-            error: null 
+            error: null
         }
-        
+
     } catch (error) {
         console.error("Error en fetchAthletesPerPage:", error)
-        return { 
-            success: false, 
+        return {
             error: "Error al cargar los atletas. Por favor, intenta de nuevo.",
-            data: null 
+            data: []
         }
     }
 }
@@ -67,37 +62,34 @@ export async function fetchAthletesPerPage({ searchQuery, page }) {
 export async function fetchAthletesPages({ searchQuery }) {
     try {
         const parseQuery = isNaN(Number(searchQuery)) ? null : Number(searchQuery);
-        
+
         if (searchQuery && !parseQuery) {
-            return { 
-                success: false, 
+            return {
                 error: "Cédula de Identidad inválida",
-                totalPages: 0 
+                totalPages: 0
             }
         }
 
-        const count = parseQuery 
+        const count = parseQuery
             ? await prisma.athlete.count({
                 where: {
                     CI: Number(searchQuery)
                 },
-              })
+            })
             : await prisma.athlete.count()
-        
+
         const totalPages = Math.ceil(count / ITEMS_PER_PAGE)
-        
-        return { 
-            success: true, 
+
+        return {
             totalPages: totalPages,
-            error: null 
+            error: null
         }
-        
+
     } catch (error) {
         console.error("Error en fetchAthletesPages:", error)
-        return { 
-            success: false, 
+        return {
             error: "Error al cargar el número de páginas",
-            totalPages: 1 
+            totalPages: 1
         }
     }
 }
