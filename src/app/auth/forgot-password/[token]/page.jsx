@@ -28,7 +28,7 @@ export default function ResetPasswordPage(){
             console.log(response.data)
         })
         .catch((error) => {
-            setError(error.response.data.error)
+            setError(error.response.data.error ?? 'Error al procesar tu solicitud. Por favor, intenta nuevamente más tarde.')
             console.log('There was an error!', error);
         })
         .finally(() => {

@@ -15,7 +15,7 @@ export async function POST(request){
     })
     
     if(!user) return NextResponse.json({
-        message: 'Si ell correo ingresado está registrado, recibirás un email con las instrucciones para restablecer tu contraseña.'
+        message: 'Si el correo ingresado está registrado, recibirás un email con las instrucciones para restablecer tu contraseña.'
     }, { status: 200 })
     
     const plainToken = crypto.randomBytes(32).toString('hex')
@@ -24,14 +24,16 @@ export async function POST(request){
     const expiredAt = Date.now() + 3600000
     try {
         const { data, error } = await resend.emails.send({
-            from: 'Acme <onboarding@resend.dev>',
+            from: 'FranksGym <noreply@frankgym.com>',
             to: user.email,
             subject: 'Restablecimiento de contraseña',
             react: EmailTemplate({ name: user.name, token: plainToken })
         })
 
-        if(error) return NextResponse.json({error}, { status: 500 })
-
+        if(error) {
+            console.log('Error al enviar el correo:', error)
+            return NextResponse.json({error}, { status: 500 })
+        }
         await prisma.user.update({
             where: { email },
             data: {
