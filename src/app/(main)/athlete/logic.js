@@ -2,16 +2,16 @@ import axios from "axios";
 
 export function useFetchSearch(setAthletes, setError, setLoading) {
     const handleLogicSearch = (e) => {
-        e.preventDefault();
+        console.log(e);
         setLoading(true);
-        axios.get(`/api/athletes?search=${e.target.search.value}`)
-        .then((response) => {
-            console.log(response.data);
-            setAthletes({athletes: [response.data], iSearch: true});
-        }).catch((error) => {
-            console.log(error);
-            setError(error.response.data.error);
-        }).finally(() => setLoading(false));
+        axios.get(`/api/athletes?search=${e}`)
+            .then((response) => {
+                const data = response.data.athletes ? response.data.athletes : [response.data]
+                setAthletes({ athletes: data, iSearch: e ? true : false, hasMore: response.data.hasMore });
+            }).catch((error) => {
+                console.log(error);
+                setError(error.response.data.error);
+            }).finally(() => setLoading(false));
     }
 
     return { handleLogicSearch };
