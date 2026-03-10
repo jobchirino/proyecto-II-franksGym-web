@@ -2,12 +2,11 @@ import { prisma } from "@/app/libs/prisma";
 import { verifySignatureAppRouter } from "@upstash/qstash/nextjs";
 import { NextResponse } from "next/server";
 
-export const POST = verifySignatureAppRouter(async (req) => {
+export async function POST ( request ) {
     try {
-        const result = await prisma.athlete.updateMany({
+        await prisma.athlete.updateMany({
             where: {
-                isPaid: true,
-                membershipType: 'mensual'
+                isPaid: true
             },
             data: {
                 isPaid: false
@@ -16,7 +15,6 @@ export const POST = verifySignatureAppRouter(async (req) => {
 
         return NextResponse.json({ message: 'Reseteo exitoso'}, { status: 200 })
     }catch(error){
-        console.log('error en el reseteo: ', error)
         return NextResponse.json({ message: 'Error en el reseteo' , error: error}, { status: 500 })
     }
-})
+}

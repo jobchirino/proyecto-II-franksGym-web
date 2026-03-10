@@ -7,9 +7,9 @@ export async function proxy(req){
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     const pathname = req.nextUrl.pathname
     const isApiRoute = req.nextUrl.pathname.startsWith('/api/')
-    const authRoutes = ['/api/users/signIn', '/api/users/is-first', '/api/users/forgot-password', '/api/users/forgot-password/reset-password', '/api/users']
+    const authRoutes = ['/api/users/signIn', '/api/users/is-first', '/api/users/forgot-password', '/api/users/forgot-password/reset-password', '/api/athletes/monthly']
 
-    if (!token) {
+    if (!token && !authRoutes.includes(pathname)) {
         if(isApiRoute){
             console.log('sin token: ',pathname )
             return NextResponse.json({error: 'No autorizado'}, { status: 401 })
@@ -29,6 +29,6 @@ export async function proxy(req){
 export const config = {
     matcher: [
         '/', '/athlete/:path*', '/newAthlete', '/profile/:path*', '/manage/:path*', 
-        '/api/athletes/:path*', '/api/users'
+        '/api/athletes', '/api/athletes/:id','/api/users'
     ]
 }
