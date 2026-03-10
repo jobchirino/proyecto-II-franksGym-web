@@ -16,7 +16,7 @@ export default function SuccessModal({modal, text, setModal, redirectTo}){
     const handleModal = () => {
         setModal(false)
         router.push(redirectTo)
-        if(redirectTo === '/auth') signOut()
+        if(redirectTo === '/auth' && !pathname.includes('/auth')) signOut()
     }
     return(
         <dialog open={modal} className={`w-full ${isAuthRoute ? '' : 'desktop:w-[80%] desktop:ml-[20%]'} h-full bg-[#000000a5] z-20 fixed top-0 modal-open`}>
