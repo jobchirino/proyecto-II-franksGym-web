@@ -7,7 +7,7 @@ export async function proxy(req){
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     const pathname = req.nextUrl.pathname
     const isApiRoute = req.nextUrl.pathname.startsWith('/api/')
-    const authRoutes = ['/api/users/signIn', '/api/users/is-first', '/api/users/forgot-password', '/api/users/forgot-password/reset-password', '/api/athletes/monthly']
+    const authRoutes = ['/api/users/signIn', '/api/users/is-first', '/api/users/forgot-password', '/api/users/forgot-password/reset-password', '/api/athletes/monthly', '/api/athletes/especific-updates']
 
     if (!token && !authRoutes.includes(pathname)) {
         if(isApiRoute){
