@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Athlete" ADD COLUMN     "lastPaymentDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

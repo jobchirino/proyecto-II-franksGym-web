@@ -36,6 +36,7 @@ model Athlete{
   email String @unique
   isPaid Boolean @default(true)
   membershipType String
+  lastPaymentDate DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
