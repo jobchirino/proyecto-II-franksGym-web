@@ -1,0 +1,254 @@
+RESUMEN COMPLETO DEL PROYECTO: FRANK'S GYM
+============================================
+
+1. PROPOSITO GENERAL DEL PROYECTO
+---------------------------------
+Frank's Gym es un sistema de gestión de membresías para atletas de un gimnasio.
+Permite:
+- CRUD completo de atletas (Crear, Leer, Actualizar, Eliminar)
+- Sistema de autenticación seguro para administradores
+- Gestión de usuarios del sistema
+- Gestión de membresías con diferentes tipos (por día, semanal, mensual)
+- Recuperación de contraseña por email
+- Sistema de reset automático de pagos mensuales (usando QStash para tareas programadas)
+
+
+2. TECNOLOGIAS UTILIZADAS
+-------------------------
+
+Framework y Runtime:
+- Next.js 16.1.4 (con App Router y Turbopack)
+- React 19.1.0
+- Node.js
+
+Base de Datos:
+- PostgreSQL (base de datos en la nube)
+- Prisma 6.18.0 (ORM)
+
+Autenticación:
+- NextAuth 4.24.13 (autenticación con credenciales)
+
+Validación y Tipado:
+- Zod 4.1.12 (validación de esquemas)
+
+UI/Estilos:
+- Tailwind CSS 4 (framework de CSS)
+- Styled Components 6.1.19 (para componentes con estilos animados)
+- React Icons 5.5.0 (iconos)
+
+Seguridad:
+- Bcrypt 6.0.0 (hashing de contraseñas)
+
+Email:
+- Resend (servicio de envío de emails)
+- React Email (plantillas de email)
+
+Tareas Programadas:
+- Upstash QStash (webhooks/CRON para reset mensual automático)
+
+Otros:
+- Axios 1.12.2 (cliente HTTP)
+- use-debounce 10.1.0 (debouncing para búsquedas)
+
+
+3. MODELOS DE DATOS Y RELACIONES
+--------------------------------
+
+MODELO User (Usuarios del sistema):
+- id: String @id @default(uuid()) @db.Uuid
+- email: String @unique
+- password: String
+- name: String
+- isFirst: Boolean (indica si es el primer usuario/admin)
+- forgotPasswordToken: String? (token para reset de contraseña)
+- forgotPasswordExpire: DateTime? (fecha de expiración del token)
+- createdAt: DateTime @default(now())
+- updatedAt: DateTime @updatedAt
+
+MODELO Athlete (Atletas del gimnasio):
+- id: Int @id @default(autoincrement())
+- CI: Int @unique (Cédula de Identidad)
+- fullName: String
+- addres: String
+- phoneNumber: String
+- emergencyPhoneNumber: String
+- email: String @unique
+- isPaid: Boolean @default(true)
+- membershipType: String (enum: 'por_dia', 'semanal', 'mensual')
+- createdAt: DateTime @default(now())
+- updatedAt: DateTime @updatedAt
+
+
+4. ESTRUCTURA DE RUTAS/PAGINAS
+-----------------------------
+
+RUTAS PUBLICAS:
+- /auth                    -> Página de login/registro
+- /auth/forgot-password    -> Solicitar recuperación de contraseña
+- /auth/forgot-password/[token] -> Reset de contraseña con token
+
+RUTAS PROTEGIDAS (grupo (main)):
+- /                       -> Dashboard - Últimos 5 atletas registrados
+- /athlete                -> Lista paginada de todos los atletas con búsqueda
+- /athlete/[id]           -> Detalle de un atleta
+- /athlete/[id]/edit      -> Editar datos de un atleta
+- /newAthlete             -> Registrar nuevo atleta
+- /profile                -> Perfil del usuario actual
+- /profile/edit           -> Editar perfil del usuario
+- /manage                 -> Gestión de usuarios (solo primer usuario)
+- /manage/[id]            -> Detalle de un usuario
+- /manage/newUser         -> Crear nuevo usuario
+
+
+5. API ROUTES
+-------------
+
+ATHLETES API (/api/athletes):
+- GET    /api/athletes           -> Lista atletas con paginación (?page=N)
+- GET    /api/athletes?search=CI -> Buscar atleta por CI
+- POST   /api/athletes           -> Crear nuevo atleta
+- GET    /api/athletes/[id]      -> Obtener detalle de atleta
+- PUT    /api/athletes/[id]      -> Actualizar atleta
+- DELETE /api/athletes/[id]      -> Eliminar atleta
+- POST   /api/athletes/monthly   -> Reset automático mensual (QStash)
+
+USERS API (/api/users):
+- GET    /api/users                                    -> Listar usuarios (sin password)
+- GET    /api/users/[id]                               -> Detalle de usuario
+- PUT    /api/users/[id]                               -> Actualizar usuario
+- DELETE /api/users/[id]                               -> Eliminar usuario
+- POST   /api/users/registers                          -> Registrar nuevo usuario
+- GET    /api/users/is-first                           -> Verificar si existe primer usuario
+- POST   /api/users/forgot-password                    -> Solicitar reset de contraseña
+- POST   /api/users/forgot-password/reset-password     -> Ejecutar reset de contraseña
+
+AUTH API (/api/auth):
+- GET/POST /api/auth/[...nextauth] -> Handler de NextAuth
+- POST    /api/auth/signIn         -> Validar credenciales
+
+
+6. COMPONENTES PRINCIPALES
+-------------------------
+
+- Header             -> Cabecera con logo y nombre del gimnasio
+- Nav                -> Navegación lateral con menú y cierre de sesión
+- ClientsTable       -> Tabla para mostrar atletas (funcional/estática)
+- AthleteForm        -> Formulario para crear/editar atletas
+- UserForm           -> Formulario para crear usuarios
+- UserDetail         -> Componente para mostrar detalles de usuario
+- Input              -> Campo de entrada reutilizable con toggle de visibilidad para passwords
+- Loader             -> Spinner animado estilo "domino"
+- ModalError         -> Modal para mostrar errores
+- SuccessModal       -> Modal para mostrar éxito de operaciones
+- ConfirmationModal  -> Modal de confirmación para eliminaciones
+- CloseModal         -> Botón para cerrar modales
+- EmailTemplate      -> Plantilla HTML para emails de recuperación
+- SessionProvider    -> Provider de NextAuth
+
+
+7. FUNCIONALIDADES CLAVE
+-----------------------
+
+7.1 Sistema de Autenticación:
+- Login con email/contraseña
+- Primer usuario registrado se convierte en "admin" (isFirst: true)
+- Solo el primer usuario puede gestionar otros usuarios
+- Contraseñas hasheadas con bcrypt (min 8 chars, 1 mayúscula, 1 número, 1 símbolo)
+
+7.2 Gestión de Atletas:
+- Crear: Formulario con validación completa
+- Leer: Lista paginada (5 por página) + vista de detalle
+- Actualizar: Formulario pre-poblado con datos existentes
+- Eliminar: Confirmación antes de eliminar
+- Buscar: Por número de CI (Cédula de Identidad)
+
+7.3 Tipos de Membresía:
+- por_dia   -> Por Día
+- semanal   -> Semanal
+- mensual   -> Mensual
+
+7.4 Gestión de Pagos:
+- Campo isPaid indica estado de pago
+- Reset automático mensual via QStash (/api/athletes/monthly)
+- Cambia isPaid: true → isPaid: false para atletas mensuales
+
+7.5 Recuperación de Contraseña:
+- Solicitud de email con token único
+- Token expira en 1 hora
+- Enlace en email para restablecer
+- Nueva contraseña con mismas validaciones
+
+7.6 Validación con Zod:
+- Esquemas para atletas, usuarios y reset de passwords
+- Traducción de errores a español
+- Mapeo de campos técnicos a nombres legibles
+
+
+8. FLUJO DE TRABAJO GENERAL
+---------------------------
+
+8.1 Registro Inicial:
+1. Usuario visita /auth
+2. Sistema verifica si existe primer usuario (/api/users/is-first)
+3. Si no existe: muestra formulario de registro
+4. Si existe: muestra formulario de login
+5. Usuario se registra → se convierte en admin (isFirst: true)
+6. Redirige a /
+
+8.2 Login:
+1. Usuario ingresa email y contraseña
+2. NextAuth valida credenciales via /api/auth/signIn
+3. Crea sesión JWT con id e isFirst
+4. Redirige a /
+
+8.3 Registrar Atleta:
+1. Admin va a /newAthlete
+2. Completa formulario con datos personales
+3. Valida datos con Zod en servidor
+4. Verifica CI y email únicos
+5. Crea atleta en DB
+6. Muestra modal de éxito
+7. Redirige a /newAthlete
+
+8.4 Gestión de Pagos Mensuales (CRON):
+1. QStash llama a /api/athletes/monthly (webhook)
+2. Verifica firma del webhook
+3. Actualiza todos los atletas mensuales a isPaid: false
+4. Confirma éxito
+
+
+9. VARIABLES DE ENTORNO NECESARIAS
+----------------------------------
+DATABASE_URL="postgresql://..."
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="secret-key-for-nextauth"
+NEXT_PUBLIC_API_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+RESEND_API_KEY="re_..."
+
+
+10. ESTILO VISUAL
+-----------------
+- Tema oscuro con colores principales:
+  - #E50914 -> Rojo (acentos, alertas)
+  - #323032 -> Gris oscuro (fondos de cards)
+  - #44FF00 -> Verde (éxito/pago)
+  - #2B80FF -> Azul (acciones secundarias)
+- Tipografía: Roboto Mono (principal), Trade Winds (logo)
+- Responsive: Desktop-first con breakpoint en 1020px
+- Animaciones: Transiciones suaves, spinner animado
+
+
+11. ARQUITECTURA DEL PROYECTO
+-----------------------------
+src/
+├── app/                    -> Rutas de Next.js (App Router)
+│   ├── (main)/            -> Grupo de rutas protegidas
+│   ├── api/               -> API routes
+│   └── auth/              -> Rutas de autenticación
+├── components/            -> Componentes React reutilizables
+├── lib/                    -> Utilidades y configuración
+│   ├── prisma.ts          -> Cliente Prisma singleton
+│   ├── validations/       -> Esquemas Zod
+│   └── auth.ts            -> Configuración de NextAuth
+└── types/                  -> Definiciones de tipos TypeScript
