@@ -59,3 +59,12 @@ Ahora abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 ## Diseño del proyecto
 
 Si deseas ver el diseño del sistema ingresa a este [wireframe](https://www.figma.com/design/NRK0wWt4wfNemPb2hkCzKE?node-id=0-1) en Figma.
+
+## Licencia
+
+Este proyecto se publica bajo **CC0 1.0 Universal (Dominio Público)**.  
+Puedes usarlo, modificarlo y compartirlo libremente sin restricciones.  
+[![CC0 1.0][cc0-badge]][cc0]
+
+[cc0]: https://creativecommons.org/publicdomain/zero/1.0/
+[cc0-badge]: https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg
