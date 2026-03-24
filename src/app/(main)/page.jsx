@@ -2,6 +2,8 @@ import ClientsTable from "@/components/clientsTable";
 // import axios from "axios";
 import { prisma } from "../libs/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home(){
   const athletes = await prisma.athlete.findMany({
     // skip: skip,

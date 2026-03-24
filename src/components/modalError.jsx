@@ -2,7 +2,7 @@ import { robotoAuth } from "@/app/auth/page";
 import { PiWarningOctagonBold } from "react-icons/pi";
 import CloseModal from "./closeModal";
 
-export default function ModalError({error}){
+export default function ModalError({error, setError}){
     
     return(
         <dialog open={error} className={`w-full h-full bg-[#000000a5] z-20 modal-open fixed top-0 overflow-hidden`}>
@@ -35,7 +35,7 @@ export default function ModalError({error}){
                         </div>
                     </section>
                     <div className="w-full flex justify-center">
-                        <CloseModal />
+                        <CloseModal setError={setError} />
                     </div>
                 </div>
 

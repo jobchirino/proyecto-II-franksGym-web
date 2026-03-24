@@ -1,5 +1,8 @@
 'use client'
-export default function CloseModal(){
+
+import { set } from "zod"
+
+export default function CloseModal({ setError }){
     const handleClick = (e) => {
         const dialog  = e.target.closest('dialog')
         if(dialog){
@@ -10,6 +13,7 @@ export default function CloseModal(){
                 dialog.classList.remove('closing')
             }, 210);
         } 
+        setError('')
     }
     return(
         <button 

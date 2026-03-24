@@ -73,7 +73,7 @@ export default function Athletes() {
                         </section>
                     </>
             }
-            <ModalError error={error} />
+            <ModalError error={error} setError={setError} />
         </>
     )
 }
