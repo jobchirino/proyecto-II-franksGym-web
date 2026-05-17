@@ -1,6 +1,7 @@
 import { prisma } from "@/app/libs/prisma"
+import { ButtonBack } from "@/components/buttonBack"
 
-export async function getAthlete(id){
+export async function getAthlete(id) {
     try {
         console.log('aquí el fetch: ', `${process.env.NEXT_PUBLIC_API_URL}/api/athlete/${id}`)
         // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/athletes/${id}`, 
@@ -11,7 +12,7 @@ export async function getAthlete(id){
         })
         // const athlete = await res.json()
         //
-        if(!athlete) throw Error("Atleta no encontrado")
+        if (!athlete) throw Error("Atleta no encontrado")
         console.log('aquí el atleta: ', athlete)
         return athlete
     } catch (error) {
@@ -19,12 +20,13 @@ export async function getAthlete(id){
         throw error
     }
 }
-export default async function DetailLayout({children, params}){
+export default async function DetailLayout({ children, params }) {
     // const id = await params.id
     // const athlete = await getAthlete(id) 
     return (
         <>
-            { children }
+            <ButtonBack />
+            {children}
         </>
     )
 }

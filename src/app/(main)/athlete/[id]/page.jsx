@@ -18,7 +18,8 @@ export default async function AthleteDetail({params}){
         mensual: "Mensual"
     }
     const { id } = await params
-    const athlete = await getAthlete(id)    
+    const athlete = await getAthlete(id)
+    const date = new Date(athlete.lastPaymentDate).toLocaleDateString('es-ES')
     return(
         <>
             <section className="w-5/6 mt-6 rounded-lg py-5 px-8 flex flex-col items-center justify-center bg-[#323032]">    
@@ -64,6 +65,7 @@ export default async function AthleteDetail({params}){
                             <div className={`${athlete.isPaid? 'bg-[#44FF00]' : 'bg-[#E50914]'} desktop:w-auto w-2/6 text-center font-semibold py-1 px-2 rounded-lg text-black`}>
                                 {athlete.isPaid? 'Pago' : 'Pendiente'}
                             </div>
+                            <p className="text-start text-md text-gray-400">Última fecha de pago: {date}</p>
                         </div>
                         <div className="flex gap-3 flex-col items-start">
                             <p className="font-semibold">Tipo de membresía:</p>
