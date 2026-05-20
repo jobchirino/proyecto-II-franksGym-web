@@ -20,6 +20,7 @@ export default function AthleteForm({ edit, defaultValue, id }) {
         axios.post('/api/athletes', formData)
             .then((response) => {
                 setSucces(true)
+                e.target.reset()
                 console.log(response.data)
             }).catch((error) => {
                 setError(error.response.data.error)
@@ -65,12 +66,12 @@ export default function AthleteForm({ edit, defaultValue, id }) {
     const succesRedirectTo = edit ? `/athlete/${id}` : '/newAthlete'
     return (
         <>
-            {
-                loading ?
-                    <div className="flex flex-grow justify-center items-center">
+            <div className="w-5/6 bg-[#323032] rounded-lg mt-3 relative">
+                {loading &&
+                    <div className="absolute inset-0 z-10 flex justify-center items-center bg-[#323032]/80 rounded-lg">
                         <Loader />
-                    </div> :
-                    <div className="w-5/6 bg-[#323032] rounded-lg mt-3">
+                    </div>
+                }
                         <h3 className="text-2xl text-[#E50914] text-center border-b-2 border-b-[#1B1C1F] py-3">Formulario de Inscripción</h3>
                         <form className="pt-3 pb-5 px-5 flex flex-col gap-3" onSubmit={handleSubmit}>
                             <section className="w-full desktop:flex desktop:justify-around">
@@ -156,9 +157,8 @@ export default function AthleteForm({ edit, defaultValue, id }) {
                                 <input type="submit" aria-label={edit ? "Editar" : "Registrar"} value={edit ? "Editar" : "Registrar"} className="cursor-pointer bg-[#C23D3D] px-2 py-1 rounded-md transition-colors duration-200 hover:bg-[#842E2E]" />
                             </div>
                         </form>
-                    </div>
-            }
-            <ModalError error={error} />
+            </div>
+            <ModalError error={error} setError={setError} />
             <SuccessModal
                 text={succesText}
                 redirectTo={succesRedirectTo}

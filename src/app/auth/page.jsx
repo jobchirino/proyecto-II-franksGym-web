@@ -25,7 +25,7 @@ export default function Login(){
         setLoading(true)
         axios.get('api/users/is-first')
         .then((response) => setIsFirst(response.data.isFirst))
-        .catch((error) => setError({error: error.response.data.error}))
+        .catch((error) => setError({error: error.response.data.error || 'Error al verificar el estado del sistema'}))
         .finally(() => setLoading(false))        
     }, [])
 
