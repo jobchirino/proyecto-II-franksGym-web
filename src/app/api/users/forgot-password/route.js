@@ -21,7 +21,7 @@ export async function POST(request){
     const plainToken = crypto.randomBytes(32).toString('hex')
     const hashedToken = await bcrypt.hash(plainToken, 10)
 
-    const expiredAt = Date.now() + 3600000
+    const expiredAt = Date.now() + 600000 // 10 minutos
     try {
         const { data, error } = await resend.emails.send({
             from: 'FranksGym <noreply@frankgym.com>',

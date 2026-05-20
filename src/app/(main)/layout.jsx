@@ -15,6 +15,7 @@ export const roboto = Roboto_Mono({
 export default function MainLayout({children}){
     const [showNav, setShowNav] = useState()
     const pathname = usePathname()
+    const licenseUrl = 'https://creativecommons.org/publicdomain/zero/1.0/'
     const titles = {
         "/": 'Inicio',
         "/athlete": "Atletas",
@@ -29,7 +30,7 @@ export default function MainLayout({children}){
     const regexUserDetail = /^\/manage\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
     return(
         <SessionProviderComponent>
-            <div className="w-full h-dvh flex relative">
+            <div className="group w-full h-dvh flex relative">
                 <Nav showNav={showNav} setNav={setShowNav} />
                 <div className="grow-1 flex flex-col relative desktop:static">
                     <Header setNav={setShowNav} />
@@ -49,6 +50,14 @@ export default function MainLayout({children}){
                         {children}
                     </main>
                 </div>
+                <a
+                    href={licenseUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pointer-events-none absolute right-3 bottom-3 z-30 rounded-full border border-[#4C4C4C] bg-[#1B1C1F]/90 px-3 py-1.5 text-[11px] text-[#D0D0D0] opacity-0 shadow-lg shadow-black/20 transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 hover:border-[#C23D3D] hover:text-white"
+                >
+                    Franks Gym 2026 · CC0 1.0
+                </a>
             </div>
         </SessionProviderComponent>
     )
