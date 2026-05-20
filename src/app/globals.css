@@ -49,6 +49,12 @@ body {
   -moz-appearance: textfield;
 }
 
+.scroll-style {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #4C4C4C transparent;
+}
+
 .scroll-style::-webkit-scrollbar-button {
   display: none;
 }
@@ -57,6 +63,10 @@ body {
   width: 8px; 
   height: 8px;
   background: transparent; 
+}
+
+.scroll-style::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .scroll-style::-webkit-scrollbar-thumb {

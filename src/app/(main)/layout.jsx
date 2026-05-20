@@ -33,7 +33,7 @@ export default function MainLayout({children}){
                 <Nav showNav={showNav} setNav={setShowNav} />
                 <div className="grow-1 flex flex-col relative desktop:static">
                     <Header setNav={setShowNav} />
-                    <main className="flex-grow flex flex-col items-center pb-4 overflow-y-auto desktop:relative">
+                    <main className="scroll-style flex-grow flex flex-col items-center pb-4 overflow-y-auto desktop:relative">
 
                         <h2 className={`${roboto.className} text-3xl font-semibold self-start pl-10 italic`}>
                             {
